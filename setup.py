@@ -1,8 +1,7 @@
-from importlib.metadata import packages_distributions
 from setuptools import setup
 
 setup(name='multi-exe-maker',
-    version='0.1',
+    version='0.2',
     long_description=''.join(open('README.md', encoding='utf-8').readlines()),
     long_description_content_type='text/markdown',
     author="Vitor Augusto de Lima Soares",
