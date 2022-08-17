@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(name='multi-exe-maker',
-    version='0.3',
+    version='0.4',
     long_description=''.join(open('README.md', encoding='utf-8').readlines()),
     long_description_content_type='text/markdown',
     author="Vitor Augusto de Lima Soares",
