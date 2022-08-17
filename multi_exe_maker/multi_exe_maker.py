@@ -18,6 +18,11 @@ def gerar_exe( file_name, download_directory):
     print(f"Transformando o arquivo {file_name} para exe\nSalvando no {download_directory}")
     os.system(f'pyinstaller --onefile "{file_name}" --distpath "{download_directory}"')
 
+def image_to_data(url):
+    response = requests.get(url, stream=True)
+    response.raw.decode_content = True
+    return response.raw.read()
+
 def layout():
 
     layout = [
@@ -56,6 +61,23 @@ def createDir(path):
         os.mkdir(path)
 
     return path    
+
+def getfiles(file_list):
+    
+    for file in file_list:
+
+        if type(file) is tuple:
+
+            #Transfor tuple to list
+            file_1 = list(file)
+
+            #Drop tuple
+            file_list.remove(file)
+
+            #Concat lists
+            file_list += file_1
+    
+    return file_list
 
 def cleanDir(path):
 
@@ -104,9 +126,10 @@ def run():
 
             files.append(file)
             print("Python File: ", files)
-
-            if(len(files)==1 and type(files[0]) is tuple):
-                files = list(files[0])
+            
+            files = getfiles(files)
+            # if(len(files)==1 and type(files[0]) is tuple):
+            #     files = list(files[0])
 
         if event == 'python_file_out':
 
@@ -153,10 +176,6 @@ def run():
             window['python_file_in'].update("")
             files = []
 
-def image_to_data(url):
-    response = requests.get(url, stream=True)
-    response.raw.decode_content = True
-    return response.raw.read()
 
 if __name__ == '__main__':
     multiprocessing.freeze_support()
