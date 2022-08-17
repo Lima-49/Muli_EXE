@@ -23,9 +23,14 @@ def layout():
     layout = [
         [sg.Image(data=image_to_data('https://i.ibb.co/t8zxNmx/logo.png'), size=(500,200), background_color='#222526')],
 
-        [sg.Text("Qty EXE:", size=(6, 1), background_color='#222526',text_color='White'), 
-        sg.Input(key="python_file_in", text_color='white', background_color='#283B5B',disabled=False,size=(48,4)),
+        [sg.Text("Exe Files:", size=(8, 1), background_color='#222526',text_color='White'), 
+        sg.Input(key="python_file_in", text_color='white', background_color='#283B5B',disabled=False,size=(46,4)),
         sg.Button(key="python_file",size=(5, 1), border_width=0,image_data=image_to_data('https://i.ibb.co/m9dkDqf/browse-button.png'), button_color='#222526')],
+
+        [sg.Text("Output folder:", size=(9, 1), background_color='#222526',text_color='White'), 
+        sg.Input(key="python_file_out_input", text_color='white', background_color='#283B5B',disabled=False,size=(45,4)),
+        sg.Button(key="python_file_out",size=(5, 1), border_width=0,image_data=image_to_data('https://i.ibb.co/m9dkDqf/browse-button.png'), button_color='#222526')],
+
 
         [sg.Multiline("", size=(68, 15), key='output', autoscroll=True,no_scrollbar=False, enable_events=True,auto_refresh=True, disabled=True, background_color='#283B5B', text_color='white')],
 
@@ -103,6 +108,11 @@ def run():
             if(len(files)==1 and type(files[0]) is tuple):
                 files = list(files[0])
 
+        if event == 'python_file_out':
+
+            download_path = sg.popup_get_folder('', no_window=True) 
+            window['python_file_out_input'].update(download_path)
+
         #Quando clicar em run
         if event == 'run':
             
@@ -121,12 +131,6 @@ def run():
             output.update("\n\nTransformando os arquivos para exe", append = True)
             processos = []
 
-            download_path = createDir(os.getcwd() + "\\" + "EXE")
-
-            try:
-                os.mkdir(download_path)
-            except:
-                print("Pasta ja existente")
             
             for file in files:
                 p = Process(target=gerar_exe, args=(str(file),download_path,))    
